@@ -6,18 +6,17 @@
 
 """icon-builder.py: Build GCP Icons for PlantUML"""
 
-import os
 import argparse
-import sys
-import subprocess
-import shutil
 import multiprocessing
+import os
+import shutil
+import subprocess
+import sys
 from multiprocessing import Pool
 from pathlib import Path
 from subprocess import PIPE
 
 import yaml
-
 from gcpicons.icon import Icon
 
 TEMPLATE_DEFAULT = """
@@ -59,7 +58,9 @@ PUML_COPYRIGHT = """'Copyright (c) 2020 David Holsgrove
 
 """
 
-parser = argparse.ArgumentParser(description="Generates GCP icons for PlantUML")
+parser = argparse.ArgumentParser(
+    description="Generates GCP icons for PlantUML"
+)
 parser.add_argument(
     "--check-env",
     action="store_true",
@@ -71,7 +72,8 @@ parser.add_argument(
     action="store_true",
     default=False,
     help=(
-        "Creates a YAML config template based on official source for " "customization"
+        "Creates a YAML config template based on official source for "
+        "customization"
     ),
 )
 args = vars(parser.parse_args())
@@ -84,7 +86,10 @@ def verify_environment():
 
     # Check execution from scripts working directory
     cur_dir = Path(".")
-    if str(cur_dir.absolute()).split("/")[-2:] != ["gcp-icons-for-plantuml", "scripts"]:
+    if str(cur_dir.absolute()).split("/")[-2:] != [
+        "gcp-icons-for-plantuml",
+        "scripts",
+    ]:
         print(
             "Working directory for icon-builder.py must be gcp-icons-for-plantuml/scripts"
         )
@@ -186,7 +191,11 @@ def create_config_template():
             if current_category is not None:
                 entries.append(category_dict)
             current_category = category
-            category_dict = {"Name": category, "SourceDir": category, "Services": []}
+            category_dict = {
+                "Name": category,
+                "SourceDir": category,
+                "Services": [],
+            }
         if "/" in file_source_dir:
             # Sub directories, add SourceDir to service
             if target in dupe_check:
